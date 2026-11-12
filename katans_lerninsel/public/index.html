@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102b40">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Kollaboratives Lernspiel: Siedlungen setzen, zwei Würfel werfen und Stochastik verstehen.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Die Lerninsel · Würfeln, siedeln, verstehen</title>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">⌂</div>
+        <div><div class="brand-kicker">DAS STOCHASTIK-LABOR</div><div class="brand-title">Die Lerninsel <span class="brand-star">✳</span></div></div>
+      </div>
+      <div class="top-actions"><span class="small-chip">🎲 2 Würfel · 1 Idee</span><div id="connectionBadge" class="connection-badge"><span class="status-dot"></span> Lokal</div></div>
+    </header>
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow">GEMEINSAM FORSCHEN · GESCHICKT ENTSCHEIDEN</div><h1>Wo lohnt es sich, <em>zu siedeln?</em></h1><p>Setzt eure Siedlungen, lasst den Zufall entscheiden und findet heraus, was Wahrscheinlichkeit wirklich bedeutet.</p></div>
+      <div class="hero-art" aria-hidden="true"><div class="floating-hex hex-one">6</div><div class="floating-hex hex-two">8</div><div class="floating-hex hex-three">🎲</div></div>
+    </section>
+    <section class="room-bar" aria-label="Gemeinsamer Spielraum">
+      <div class="room-left"><div class="room-label">UNSER SPIELRAUM</div><div id="roomDisplay" class="room-display">Einzelgerät · Probemodus</div><div class="room-help" id="roomHelp">Für die Zusammenarbeit einen gemeinsamen Raum starten.</div></div>
+      <div id="roomControls" class="room-controls"></div>
+    </section>
+    <nav class="lesson-nav" aria-label="Lernstationen" id="lessonNav"></nav>
+    <main class="main-grid">
+      <section class="board-card" aria-labelledby="boardTitle">
+        <div class="card-heading"><div><div class="micro-label">01 · SPIELFELD</div><h2 id="boardTitle">Eure Insel</h2></div><div id="boardCounter" class="board-counter"></div></div>
+        <div class="board-instruction"><span class="sparkle">✦</span> <span id="boardHint">Team wählen und auf einen leuchtenden Kreuzungspunkt tippen.</span></div>
+        <div class="board-frame"><svg id="board" class="island-board" viewBox="0 0 1376 1088" role="group" aria-label="Catan-Spielfeld mit antippbaren Kreuzungspunkten"></svg></div>
+        <div class="board-footer"><div class="legend-item"><span class="legend-marker free"></span> Freie Kreuzung</div><div class="legend-item"><span class="legend-marker home"></span> Siedlung + Rohstoffe</div><div class="legend-item"><span class="legend-marker blocked"></span> Abstand gesperrt</div></div>
+      </section>
+      <aside class="aside-card" id="sidePanel" aria-live="polite"></aside>
+    </main>
+    <section class="wide-panel" id="scorePanel"></section>
+    <footer class="footer"><span>Die Lerninsel · Interaktives Stochastik-Labor</span><span>Die Karte stammt aus der bereitgestellten Unterrichtsvorlage. Keine offizielle Catan-Anwendung.</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="roomDialog" class="room-dialog">
+    <form method="dialog" id="joinForm"><div class="modal-kicker">ZUSAMMEN SPIELEN</div><h2>Einem Raum beitreten</h2><p>Gib den sechsstelligen Code deiner Lehrkraft ein.</p><label for="joinCode">Raumcode</label><input id="joinCode" name="joinCode" maxlength="8" autocapitalize="characters" autocomplete="off" placeholder="z. B. ABC123" required><div class="modal-actions"><button class="btn btn-ghost" type="button" data-close-dialog>Abbrechen</button><button class="btn btn-primary" type="submit">Beitreten →</button></div></form>
+  </dialog>
+  <script type="module" src="/app.mjs"></script>
+</body>
+</html>

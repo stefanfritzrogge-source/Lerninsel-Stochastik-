@@ -1,0 +1,10 @@
+{
+  "name": "KATAN-Lerninsel · Wahrscheinlichkeit entdecken",
+  "short_name": "Lerninsel",
+  "description": "Gemeinsam Siedlungen bauen, würfeln und Stochastik entdecken",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ecf3f7",
+  "theme_color": "#102b40",
+  "icons": [{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
