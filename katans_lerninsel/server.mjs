@@ -57,7 +57,7 @@ const server=http.createServer(async(req,res)=>{
   try {
     if(req.method==='GET'&&pathname==='/healthz')return sendJSON(res,200,{ok:true,rooms:Object.keys(rooms).length});
     if(req.method==='POST'&&pathname==='/api/rooms/create'){
-      const code=newCode();rooms[code]=initialState(4);save();return sendJSON(res,201,{code,state:rooms[code]});
+      const code=newCode();rooms[code]=initialState(2);save();return sendJSON(res,201,{code,state:rooms[code]});
     }
     const match=pathname.match(/^\/api\/rooms\/([A-Z0-9]{1,8})(?:\/(events|actions))?$/i);
     if(match){
@@ -75,6 +75,7 @@ const server=http.createServer(async(req,res)=>{
       if(req.method==='POST'&&match[2]==='actions'){
         const action=await getBody(req);
         try {
+          if(!Number.isInteger(action.revision)||!rooms[code].players.some(p=>p.id===action.actorId))throw Error('Bitte die App neu laden und dein Team wählen.');
           const {state,message}=applyAction(rooms[code],action,()=>crypto.randomInt(1,7));
           rooms[code]=state;save();announce(code);
           return sendJSON(res,200,{ok:true,message,state});
