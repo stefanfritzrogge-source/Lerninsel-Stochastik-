@@ -21,15 +21,13 @@
       </div>
       <div class="top-actions"><span class="small-chip">🎲 2 Würfel · 1 Idee</span><div id="connectionBadge" class="connection-badge"><span class="status-dot"></span> Lokal</div></div>
     </header>
-    <section class="hero">
-      <div class="hero-copy"><div class="eyebrow">GEMEINSAM FORSCHEN · GESCHICKT ENTSCHEIDEN</div><h1>Wo lohnt es sich, <em>zu siedeln?</em></h1><p>Setzt eure Siedlungen, lasst den Zufall entscheiden und findet heraus, was Wahrscheinlichkeit wirklich bedeutet.</p></div>
-      <div class="hero-art" aria-hidden="true"><div class="floating-hex hex-one">6</div><div class="floating-hex hex-two">8</div><div class="floating-hex hex-three">🎲</div></div>
-    </section>
     <section class="room-bar" aria-label="Gemeinsamer Spielraum">
       <div class="room-left"><div class="room-label">UNSER SPIELRAUM</div><div id="roomDisplay" class="room-display">Einzelgerät · Probemodus</div><div class="room-help" id="roomHelp">Für die Zusammenarbeit einen gemeinsamen Raum starten.</div></div>
       <div id="roomControls" class="room-controls"></div>
     </section>
-    <nav class="lesson-nav" aria-label="Lernstationen" id="lessonNav"></nav>
+    <section id="turnBanner" class="turn-banner" aria-live="polite" aria-atomic="true"></section>
+    <div class="view-switch"><button class="btn btn-primary" data-action="stage" data-value="0">Spielen</button><button class="btn btn-ghost" id="lessonStart" data-action="start-lessons">Nach dem Spielen: Gesprächsrunde starten</button></div>
+    <nav class="lesson-nav" aria-label="Fortschritt der Gesprächsrunde" id="lessonNav" hidden></nav>
     <main class="main-grid">
       <section class="board-card" aria-labelledby="boardTitle">
         <div class="card-heading"><div><div class="micro-label">01 · SPIELFELD</div><h2 id="boardTitle">Eure Insel</h2></div><div id="boardCounter" class="board-counter"></div></div>

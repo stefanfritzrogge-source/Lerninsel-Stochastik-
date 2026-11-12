@@ -42,6 +42,8 @@ export const safeRoomCode = code => String(code||'').toUpperCase().replace(/[^A-
 const freshPlayer = n=>({id:`p${n}`,name:`Team ${n+1}`,color:COLORS[n%COLORS.length]});
 export const initialState = (count=4) => ({
   players: Array.from({length:Math.max(1,Math.min(8,count))},(_,i)=>freshPlayer(i)),
+  currentPlayerId: 'p0',
+  revision: 0,
   settlements: [],
   maxSettlements:2,
   distanceRule:true,
@@ -87,6 +89,22 @@ export function applyAction(current, action, dice=()=>1+Math.floor(Math.random()
   const payload=action?.payload||{};
   const type=action?.type;
   let message='';
+  state.currentPlayerId ||= state.players[0].id;
+  state.revision ||= 0;
+  const playing=['addSettlement','roll','endTurn'].includes(type);
+  if (action.revision !== undefined && action.revision !== state.revision) throw Error('Der Spielstand hat sich geändert. Bitte warte auf die Aktualisierung.');
+  if (playing && action.actorId !== undefined && action.actorId !== state.currentPlayerId) throw Error('Bitte warten: Ein anderes Team ist am Zug.');
+  if (type==='addSettlement' && payload.playerId !== state.currentPlayerId) throw Error('Dieses Team ist gerade nicht am Zug.');
+  const advance=()=>{
+    const building=!state.maxSettlements || state.players.some(p=>state.settlements.filter(s=>s.playerId===p.id).length<state.maxSettlements);
+    const candidates=building?state.players.filter(p=>!state.maxSettlements || state.settlements.filter(s=>s.playerId===p.id).length<state.maxSettlements):state.players;
+    const index=state.players.findIndex(p=>p.id===state.currentPlayerId);
+    for(let n=1;n<=state.players.length;n++){
+      const next=state.players[(index+n)%state.players.length];
+      if(candidates.some(p=>p.id===next.id)){state.currentPlayerId=next.id;break;}
+    }
+  };
+
   if (type==='setPlayerCount') {
     const count=Number(payload.count);
     if (!Number.isInteger(count)||count<1||count>8) throw Error('Erlaubt sind 1 bis 8 Teams.');
@@ -109,11 +127,14 @@ export function applyAction(current, action, dice=()=>1+Math.floor(Math.random()
     const result=canPlace(state,payload.vertexId,payload.playerId);
     if (!result.ok)throw Error(result.reason);
     state.settlements.push({id:`s${Date.now().toString(36)}${Math.random().toString(36).slice(2,7)}`,vertexId:payload.vertexId,playerId:payload.playerId,resources:{forest:0,wheat:0,clay:0,pasture:0,ore:0},total:0});
-    message='Siedlung gesetzt.';
+    advance();
+    message='Siedlung gesetzt. Nächstes Team ist am Zug.';
   } else if (type==='removeSettlement') {
     const index=state.settlements.findIndex(s=>s.id===payload.settlementId);
     if (index===-1)throw Error('Siedlung nicht gefunden.');
     state.settlements.splice(index,1);
+  } else if (type==='endTurn') {
+    advance();
   } else if (type==='roll') {
     const rounds=Number(payload.rounds);
     if (!Number.isInteger(rounds)||rounds<1||rounds>10000)throw Error('Bitte 1 bis 10.000 Würfelrunden wählen.');
@@ -139,6 +160,7 @@ export function applyAction(current, action, dice=()=>1+Math.floor(Math.random()
     }
     state.latestRolls=state.latestRolls.slice(0,80);
     state.lastBatch=rounds;
+    advance();
     message=`${rounds} Würfelrunde${rounds===1?'':'n'} simuliert.`;
   } else if (type==='resetRolls') {
     state.rollCount=0;
@@ -147,6 +169,7 @@ export function applyAction(current, action, dice=()=>1+Math.floor(Math.random()
     state.lastBatch=0;
     state.settlements.forEach(s=>{s.total=0;s.resources={forest:0,wheat:0,clay:0,pasture:0,ore:0};});
   } else if (type==='resetBoard') {
+    state.currentPlayerId=state.players[0].id;
     state.settlements=[];
     state.rollCount=0;
     state.histogram=Object.fromEntries(Object.keys(WAYS).map(s=>[s,0]));
@@ -154,6 +177,8 @@ export function applyAction(current, action, dice=()=>1+Math.floor(Math.random()
   } else {
     throw Error('Aktion nicht unterstützt.');
   }
+  if(!state.players.some(p=>p.id===state.currentPlayerId))state.currentPlayerId=state.players[0].id;
+  state.revision++;
   state.updatedAt=Date.now();
   return {state,message};
 }

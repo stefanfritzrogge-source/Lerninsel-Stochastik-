@@ -13,3 +13,17 @@
 @media(max-width:790px){.main-grid{grid-template-columns:minmax(0,1fr)}.hero{min-height:150px}.hero-art{opacity:.3}.board-card{padding:15px}.aside-card{min-height:0}.room-bar{flex-wrap:wrap;align-items:flex-start}.room-controls{justify-content:flex-start}.score-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.topbar{padding:15px 0}.brand-title{font-size:21px}.hero h1{font-size:30px}.footer{display:block}.footer span{display:block;margin-bottom:6px}}
 @media(max-width:440px){.page{padding-inline:8px}.small-chip{display:none}.hero{padding:22px 19px;border-radius:17px}.hero h1{font-size:27px}.hero p{font-size:12px}.room-bar{padding:15px}.board-card{padding:8px}.board-instruction{font-size:11px;margin:10px 7px 0}.board-footer{font-size:9px;gap:7px}.room-controls .btn{font-size:11px;padding:10px}.score-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.brand-mark{width:40px;height:40px}.brand-kicker{font-size:9px}.step-button{padding:10px 12px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
+/* Ruhige Spielansicht: eine Aufgabe, ein gemeinsamer Zug. */
+[hidden]{display:none!important}
+.brand-kicker,.brand-star,.small-chip,.micro-label,.board-footer{display:none}
+.topbar{padding:16px 0}.room-bar{margin:0 0 16px;padding:14px 18px;box-shadow:none}
+.turn-banner{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 24px;background:white;border:2px solid var(--turn-color);border-left:12px solid var(--turn-color);border-radius:12px;box-shadow:0 4px 12px #17304412}
+.turn-banner span{font-size:12px;font-weight:800;letter-spacing:1px}.turn-banner h1{margin:4px 0 0;font-size:30px}.turn-banner p{font-size:16px;margin:0;max-width:55%}.view-switch{display:flex;gap:10px;margin:16px 0}
+.main-grid{grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);align-items:start}.aside-card{min-height:0;padding:24px}.aside-card h2{font-size:24px}.aside-card p{font-size:16px;line-height:1.5}.board-card,.aside-card,.wide-panel{box-shadow:none;border-radius:12px}.board-instruction{display:none}.board-card{padding:12px}.board-frame{margin-top:0}.card-heading{padding:0 8px}.card-heading h2{font-size:20px}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}summary{cursor:pointer;font-size:15px;font-weight:700;padding:8px 0}.waiting-note{background:#eff4f7;padding:14px;border-radius:8px}.roll-button{width:100%;padding:18px;font-size:20px}.score-details{margin-top:8px}.score-number{font-size:30px}.wide-head span{display:none}.footer{font-size:11px}.team-chip{min-height:46px}.lesson-nav{margin-bottom:16px}
+@media(max-width:790px){.main-grid{grid-template-columns:1fr}.aside-card{grid-row:1}.turn-banner{padding:12px 16px}.turn-banner h1{font-size:24px}.turn-banner p{font-size:14px}.aside-card details{margin-top:12px}.aside-card{padding:16px}.aside-card h2{margin-top:0}.board-frame{max-height:none}}
+
+.table-prompt h2{margin-top:10px}.table-check{border-left:3px solid var(--teal);padding-left:14px;margin-top:24px}.table-note{color:var(--muted);font-size:14px!important}.discussion-tools .panel-head{margin-top:16px}
+
+.lesson-progress{display:block;padding:12px 4px;font-weight:700;color:var(--muted)}.investigation{border:1px solid var(--teal);border-radius:10px;padding:16px;margin-bottom:20px}.table-prompt>strong{display:block;margin-top:20px}.view-switch{flex-wrap:wrap}
