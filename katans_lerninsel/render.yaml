@@ -3,6 +3,7 @@ services:
     name: katan-lerninsel
     runtime: node
     plan: free
+        rootDir: katans_lerninsel
     buildCommand: "npm install"
     startCommand: "npm start"
     healthCheckPath: /healthz
