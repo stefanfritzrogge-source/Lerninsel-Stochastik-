@@ -51,3 +51,23 @@ test('Ungültige Rundenanzahl und Teamzahl sind gesperrt',()=>{
   assert.throws(()=>applyAction(initialState(),{type:'setPlayerCount',payload:{count:9}}),/1 bis 8/);
   assert.equal(applyAction(initialState(),{type:'setPlayerCount',payload:{count:6}}).state.players.length,6);
 });
+
+test('Zugwechsel ist gemeinsam; falsche Teams und veraltete gleichzeitige Aktionen werden abgewiesen',()=>{
+  const first=initialState(2);
+  const request={type:'addSettlement',actorId:'p0',revision:0,payload:{playerId:'p0',vertexId:SAMPLE}};
+  const next=applyAction(first,request).state;
+  assert.equal(next.currentPlayerId,'p1');
+  assert.equal(next.revision,1);
+  assert.throws(()=>applyAction(next,request),/Spielstand hat sich geändert/);
+  assert.throws(()=>applyAction(next,{type:'endTurn',actorId:'p0',revision:1}),/anderes Team/);
+  assert.equal(applyAction(next,{type:'endTurn',actorId:'p1',revision:1}).state.currentPlayerId,'p0');
+});
+
+test('Volle Teams werden beim Bauen übersprungen; nach dem Aufbau wechselt der Würfelzug',()=>{
+  let s=initialState(2);s.maxSettlements=1;s.distanceRule=false;
+  s=applyAction(s,{type:'addSettlement',actorId:'p0',revision:0,payload:{playerId:'p0',vertexId:VERTICES[0].id}}).state;
+  s=applyAction(s,{type:'addSettlement',actorId:'p1',revision:1,payload:{playerId:'p1',vertexId:VERTICES[1].id}}).state;
+  assert.equal(s.currentPlayerId,'p0');
+  s=applyAction(s,{type:'roll',actorId:'p0',revision:2,payload:{rounds:1}},()=>3).state;
+  assert.equal(s.currentPlayerId,'p1');assert.equal(s.rollCount,1);
+});
